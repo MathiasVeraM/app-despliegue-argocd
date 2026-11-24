@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Tareas | Gestor de tareas{% endblock %}
+
+{% block content %}
+  <div class="page-heading">
+    <div>
+      <h1>Mis tareas</h1>
+      <p>Organiza tus tareas pendientes.</p>
+    </div>
+    <a class="button" href="{{ url_for('main.create') }}">Nueva tarea</a>
+  </div>
+
+  {% if tasks %}
+    <ul class="task-list">
+      {% for task in tasks %}
+        <li class="task-card {% if task.completed %}is-complete{% endif %}">
+          <div class="task-content">
+            <h2>{{ task.title }}</h2>
+            {% if task.description %}
+              <p>{{ task.description }}</p>
+            {% endif %}
+            <span class="status">
+              {{ "Completada" if task.completed else "Pendiente" }}
+            </span>
+          </div>
+          <div class="task-actions">
+            <form method="post" action="{{ url_for('main.toggle', task_id=task.id) }}">
+              <button class="button secondary" type="submit">
+                {{ "Marcar pendiente" if task.completed else "Completar" }}
+              </button>
+            </form>
+            <a class="button secondary" href="{{ url_for('main.edit', task_id=task.id) }}">Editar</a>
+            <form method="post" action="{{ url_for('main.delete', task_id=task.id) }}"
+                  onsubmit="return confirm('¿Eliminar esta tarea?');">
+              <button class="button danger" type="submit">Eliminar</button>
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty-state">Todavía no hay tareas. ¡Crea la primera!</p>
+  {% endif %}
+{% endblock %}

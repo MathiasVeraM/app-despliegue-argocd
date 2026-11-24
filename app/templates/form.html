@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ heading }} | Gestor de tareas{% endblock %}
+
+{% block content %}
+  <h1>{{ heading }}</h1>
+  <form class="task-form" method="post" action="{{ action }}">
+    <label for="title">Título</label>
+    <input id="title" name="title" type="text" value="{{ title }}" required autofocus>
+
+    <label for="description">Descripción</label>
+    <textarea id="description" name="description" rows="5">{{ description }}</textarea>
+
+    <div class="form-actions">
+      <button class="button" type="submit">Guardar</button>
+      <a class="button secondary" href="{{ url_for('main.index') }}">Cancelar</a>
+    </div>
+  </form>
+{% endblock %}
